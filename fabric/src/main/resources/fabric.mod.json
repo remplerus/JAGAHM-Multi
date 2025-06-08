@@ -16,7 +16,7 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "com.example.examplemod.ExampleMod"
+            "com.rempler.jagahm.JAGAHMFabric"
         ]
     },
     "mixins": [
@@ -27,7 +27,8 @@
         "fabricloader": ">=${fabric_loader_version}",
         "fabric-api": "*",
         "minecraft": "${minecraft_version}",
-        "java": ">=${java_version}"
+        "java": ">=${java_version}",
+        "cloth-config": "*"
     },
     "suggests": {
         "another-mod": "*"
