@@ -1,0 +1,17 @@
+{
+  "jagahm.fart.subtitle": "Fart",
+  "item.jagahm.poop": "Poop",
+
+  "_comment": "next is only for fabric",
+  "config.jagahm.twerk_enabled": "Twerk Enabled",
+  "config.jagahm.poop_sound": "Enable Poop Sound",
+  "config.jagahm.poop_spawn": "Enable Poop Spawn",
+  "config.jagahm.activate_myst_agri": "Activate Mystical Agriculture",
+  "config.jagahm.activate_agricraft": "Activate AgriCraft",
+  "config.jagahm.spawn_particles": "Enable Particles",
+  "config.jagahm.grow_speed": "Grow Speed",
+  "config.jagahm.random_speed": "Random Speed",
+  "config.jagahm.grow_range": "Grow Range",
+  "config.jagahm.grow_height": "Grow Height",
+  "config.jagahm.check_fertile": "Check Fertile"
+}
