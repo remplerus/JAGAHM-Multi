@@ -22,9 +22,6 @@ neoForge {
         client {
             client()
         }
-        data {
-            data()
-        }
         server {
             server()
         }
@@ -37,17 +34,18 @@ neoForge {
 }
 
 dependencies {
-    runtimeOnly "mezz.jei:jei-1.21.1-neoforge:19.17.0.196"
-    runtimeOnly "curse.maven:top-245211:5502323"
+   //runtimeOnly "mezz.jei:jei-1.21.1-neoforge:19.17.0.196"
+   //runtimeOnly "curse.maven:top-245211:5502323"
 
     //implementation 'curse.maven:agricraft-225635:3883933'
     //runtimeOnly 'curse.maven:infinitylib-251396:3883932'
 
-    runtimeOnly 'com.blakebr0.cucumber:Cucumber:1.21.1-8.0.5'
-    implementation 'com.blakebr0.mysticalagriculture:MysticalAgriculture:1.21.1-8.0.6'
+    //runtimeOnly 'com.blakebr0.cucumber:Cucumber:1.21.1-8.0.5'
+    //implementation 'com.blakebr0.mysticalagriculture:MysticalAgriculture:1.21.1-8.0.6'
 }
 
 repositories {
+    maven { url "https://repo.glaremasters.me/repository/public/" }
     maven{
         url = 'https://cursemaven.com'
         content {
@@ -67,6 +65,9 @@ repositories {
             includeGroup "mezz.jei"
         }
     }
+}
+
+tasks.register('idePostSync') {
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }

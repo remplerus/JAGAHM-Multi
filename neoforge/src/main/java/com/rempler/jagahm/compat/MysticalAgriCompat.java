@@ -1,6 +1,6 @@
 package com.rempler.jagahm.compat;
 
-import com.blakebr0.mysticalagriculture.api.crop.ICropProvider;
+//import com.blakebr0.mysticalagriculture.api.crop.ICropProvider;
 import com.rempler.jagahm.JAGAHMNeo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -13,9 +13,9 @@ public class MysticalAgriCompat {
     private MysticalAgriCompat() {}
 
     public static void initMysticalAgriCompat(Level level, BlockPos blockPos, BlockState state, Player player) {
-         if(state.getBlock() instanceof ICropProvider) {
-            ((CropBlock) state.getBlock()).performBonemeal((ServerLevel) level, level.getRandom(), blockPos, state);
-            JAGAHMNeo.spawnParticles(player, level, blockPos);
-         }
+         //if(state.getBlock() instanceof ICropProvider) {
+         //   ((CropBlock) state.getBlock()).performBonemeal((ServerLevel) level, level.getRandom(), blockPos, state);
+         //   JAGAHMNeo.spawnParticles(player, level, blockPos);
+         //}
     }
 }

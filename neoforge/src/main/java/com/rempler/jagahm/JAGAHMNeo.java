@@ -4,15 +4,12 @@ import com.rempler.jagahm.compat.AgriCraftCompat;
 import com.rempler.jagahm.compat.MysticalAgriCompat;
 import com.rempler.jagahm.platform.Services;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BoneMealItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -29,13 +26,13 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.BonemealEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 @Mod(Constants.MOD_ID)
 public class JAGAHMNeo {
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, Constants.MOD_ID);
-    public static final DeferredHolder<Item, PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
+    private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Constants.MOD_ID);
+    public static final DeferredItem<PoopItem> POOP = ITEMS.registerItem("poop", props -> new PoopItem(props.stacksTo(64)));
 
     public JAGAHMNeo(IEventBus eventBus, ModContainer modContainer) {
         CommonClass.init();
@@ -115,9 +112,6 @@ public class JAGAHMNeo {
                 for (int y = -b; y <= b; y++) {
                     BlockPos blockPos = new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z);
                     if (Services.PLATFORM.isModLoaded("agricraft")) {
-                        if (Config.enablePosts()) {
-                            player.sendSystemMessage(Component.literal("AgriCraft has no integration yet!"));
-                        }
                         if (Config.activateAgriCraft()) {
                             AgriCraftCompat.initAgriCompat(level, blockPos, player);
                         }
@@ -125,9 +119,6 @@ public class JAGAHMNeo {
                         BlockState state = level.getBlockState(blockPos);
                         if (!(state.getBlock() instanceof AirBlock || state.is(JAGAHM.BLACKLIST))) {
                             if (Services.PLATFORM.isModLoaded("mysticalagriculture")) {
-                                //if (Config.enablePosts()) {
-                                //    player.sendSystemMessage(Component.literal("Mystical Agriculture has no integration yet!"));
-                                //}
                                 if (Config.activateMystAgri()) {
                                     MysticalAgriCompat.initMysticalAgriCompat(level, blockPos, state, player);
                                 } else {

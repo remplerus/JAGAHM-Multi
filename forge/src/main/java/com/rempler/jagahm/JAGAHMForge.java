@@ -3,8 +3,6 @@ package com.rempler.jagahm;
 import com.rempler.jagahm.compat.AgriCraftCompat;
 import com.rempler.jagahm.platform.Services;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
@@ -29,20 +27,22 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 @Mod(Constants.MOD_ID)
 public class JAGAHMForge {
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM.key(), Constants.MOD_ID);
-    public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", PoopItem::new);
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.MOD_ID);
+    public static final RegistryObject<PoopItem> POOP = ITEMS.register("poop", () -> new PoopItem(
+            new Item.Properties().stacksTo(64).setId(JAGAHM.getItemKey(JAGAHM.POOP_ID))));
 
     public JAGAHMForge(FMLJavaModLoadingContext context) {
         CommonClass.init();
         IEventBus eventBus = context.getModEventBus();
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC, Constants.MOD_ID + ".toml");
-        ModSounds.init(eventBus);
         ITEMS.register(eventBus);
+        ModSounds.init(eventBus);
     }
 
     @SubscribeEvent
@@ -116,9 +116,6 @@ public class JAGAHMForge {
                 for (int y = -b; y <= b; y++) {
                     BlockPos blockPos = new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z);
                     if (Services.PLATFORM.isModLoaded("agricraft")) {
-                        if (Config.enablePosts()) {
-                            player.sendSystemMessage(Component.literal("AgriCraft has no integration yet!"));
-                        }
                         if (Config.activateAgriCraft()) {
                             AgriCraftCompat.initAgriCompat(level, blockPos, player);
                         }
@@ -126,14 +123,11 @@ public class JAGAHMForge {
                         BlockState state = level.getBlockState(blockPos);
                         if (!(state.getBlock() instanceof AirBlock || state.is(JAGAHM.BLACKLIST))) {
                             if (Services.PLATFORM.isModLoaded("mysticalagriculture")) {
-                                if (Config.enablePosts()) {
-                                    player.sendSystemMessage(Component.literal("Mystical Agriculture has no integration yet!"));
-                                //}
                                 //if (Config.activateMystAgri()) {
-                                    //MysticalAgriCompat.initMysticalAgriCompat(level, blockPos, state, player);
-                                } else {
+                                //    //MysticalAgriCompat.initMysticalAgriCompat(level, blockPos, state, player);
+                                //} else {
                                     standardGrow(player, level, blockPos, state);
-                                }
+                                //}
                             } else {
                                 standardGrow(player, level, blockPos, state);
                             }

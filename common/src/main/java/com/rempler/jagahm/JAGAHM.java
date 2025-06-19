@@ -4,9 +4,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -30,6 +31,7 @@ import net.minecraft.world.phys.BlockHitResult;
 public class JAGAHM {
     public static final TagKey<Block> WHITELIST = TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "whitelist"));
     public static final TagKey<Block> BLACKLIST = TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "blacklist"));
+    protected static final ResourceLocation POOP_ID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "poop");
     public static boolean hasPlayedSound = false;
     public static int tickCounter = 0;
     public static int fartCounter = 0;
@@ -46,9 +48,14 @@ public class JAGAHM {
         return state;
     }
 
+    public static ResourceKey<Item> getItemKey(ResourceLocation resourceLocation) {
+        return ResourceKey.create(Registries.ITEM, resourceLocation);
+    }
+
     public static void dropStacks(BlockState state, ServerLevel level, BlockPos pos, Entity entity,
                                   ItemStack toolStack) {
-        Item replant = state.getBlock().getCloneItemStack(level, pos, state).getItem();
+        Item replant = new ItemStack(state.getBlock().asItem()).getItem();
+                //state.getBlock().getCloneItemStack(level, pos, state, false).getItem();
         final boolean[] removedReplant = { false };
         Block.getDrops(state, level, pos, null, entity, toolStack).forEach(stack -> {
             if (!removedReplant[0] && stack.getItem() == replant) {
@@ -123,7 +130,7 @@ public class JAGAHM {
         double d0 = level.getRandom().nextDouble();
         for (int a = 0; a < 2; a++) {
             //TODO: make custom particle
-            ((ServerLevel) level).sendParticles((ServerPlayer) player, ParticleTypes.CLOUD, false, blockPos.getX() + d0,
+            ((ServerLevel) level).sendParticles(ParticleTypes.CLOUD, false, false, blockPos.getX() + d0,
                     blockPos.getY() + d0, blockPos.getZ() + d0, 1, 0.5, 0.5, 0.5, 0.01);
         }
     }

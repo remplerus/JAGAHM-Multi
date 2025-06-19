@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BoneMealItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.AirBlock;
@@ -20,13 +21,13 @@ import net.minecraft.world.level.block.SugarCaneBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class JAGAHMFabric implements ModInitializer {
-    public static final PoopItem POOP = new PoopItem();
+    public static final PoopItem POOP = new PoopItem(new Item.Properties().stacksTo(64).setId(JAGAHM.getItemKey(JAGAHM.POOP_ID)));
     public static final SoundEvent FART = SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "fart"));
     
     @Override
     public void onInitialize() {
         CommonClass.init();
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "poop"), POOP);
+        Registry.register(BuiltInRegistries.ITEM, JAGAHM.POOP_ID, POOP);
         Registry.register(BuiltInRegistries.SOUND_EVENT, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "fart"), FART);
     }
 
@@ -46,19 +47,13 @@ public class JAGAHMFabric implements ModInitializer {
                 for (int y = -b; y <= b; y++) {
                     BlockPos blockPos = new BlockPos(pos.getX() + x, pos.getY() + y, pos.getZ() + z);
                     if (Services.PLATFORM.isModLoaded("agricraft")) {
-                        if (ModConfig.enablePosts()) {
-                            player.sendSystemMessage(Component.literal("AgriCraft has no integration yet!"));
-                        }
-                        //if (Config.activateAgriCraft()) {
+                        //if (ModConfig.activateAgriCraft()) {
                         //    AgriCraftCompat.initAgriCompat(level, blockPos, player);
                         //}
                     } else if (level.getRandom().nextDouble() < ModConfig.getRandomSpeed()) {
                         BlockState state = level.getBlockState(blockPos);
                         if (!(state.getBlock() instanceof AirBlock || state.is(JAGAHM.BLACKLIST))) {
                             if (Services.PLATFORM.isModLoaded("mysticalagriculture")) {
-                                //if (Config.enablePosts()) {
-                                //    player.sendSystemMessage(Component.literal("Mystical Agriculture has no integration yet!"));
-                                //}
                                 if (ModConfig.activateMystAgri()) {
                                     MysticalAgriCompat.initMysticalAgriCompat(level, blockPos, state, player);
                                 } else {
