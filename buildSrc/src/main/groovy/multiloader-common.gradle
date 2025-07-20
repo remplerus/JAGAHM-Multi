@@ -118,5 +118,13 @@ publishing {
         maven {
             url System.getenv('local_maven_url')
         }
+        maven {
+            name = "RemplersRepo"
+            url = "https://maven.rempler.com:42069/releases/"
+            credentials(PasswordCredentials)
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
     }
 }
